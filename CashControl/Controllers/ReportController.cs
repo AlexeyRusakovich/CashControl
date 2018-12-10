@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using CashControl.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CashControl.Controllers
 {
-    public class TransactionController : Controller
+    public class ReportController : Controller
     {
         public IActionResult Index()
         {

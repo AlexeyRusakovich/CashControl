@@ -59,7 +59,7 @@ namespace CashControl
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Transactions}/{action=Index}/{id?}");
             });
         }
     }
