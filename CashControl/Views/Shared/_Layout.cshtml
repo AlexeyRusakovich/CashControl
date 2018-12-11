@@ -7,22 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CashControl</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-image: url(../images/background.jpg); 
+            background-repeat:no-repeat;
+            background-size:cover;
+        }
+    </style>
 </head>
-<body style="padding-top: 0px">   
-        <nav class="navbar navbar-default">  
+<body style="padding-top: 0px"> 
+<nav class="navbar navbar-default">  
             <div class="container-fluid">  
                 <div class="navbar-header">  
-                    <a class="navbar-brand" href="#">CashControl</a>  
+                    <label class="navbar-brand">CashControl</label>  
                 </div>  
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Transactions" asp-action="Index">Management</a></li>
@@ -30,8 +30,8 @@
                     
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-controller="User" asp-action="Login">Log in</a></li>
-                    <li><a asp-controller="User" asp-action="Logout">Log out</a></li>
+                    <li><a asp-controller="User" asp-action="Login">Sign in</a></li>
+                    <li><a asp-controller="User" asp-action="Logout">Sign out</a></li>
                     <li><a asp-controller="User" asp-action="Register">Register</a></li>
                 </ul>
             </div>  
@@ -39,8 +39,5 @@
         <div>
             @RenderBody()
         </div>
-        <script src="js/jquery-2.1.4.min.js"></script>  
-        <script src="js/bootstrap.min.js"></script>  
-</body>  
-
+</body>
 </html>

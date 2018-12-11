@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CashControl.Api;
+using CashControl.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CashControl.Models;
 
@@ -10,34 +12,16 @@ namespace CashControl.Controllers
 {
     public class TransactionsController : Controller
     {
+        private readonly ITransactionsRepository transactions;
+
+        public TransactionsController(ITransactionsRepository transactionsRepository)
+        {
+            transactions = transactionsRepository;
+        }
+
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
