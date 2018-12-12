@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CashControl.Api;
 using CashControl.Interfaces;
 using CashControl.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +38,15 @@ namespace CashControl
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<ITransactionsRepository, TransactionsRepository>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/User/Login";
+                        options.AccessDeniedPath = "/User/Login";
+                        options.LogoutPath = "/User/Logout";
+                        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+                    });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

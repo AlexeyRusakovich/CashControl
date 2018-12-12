@@ -7,35 +7,44 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 
-<div class="tab-content col-md-4  col-md-offset-4">
-    <form class="form-horizontal">
-        <div class="form-group col-md-12">
-            <label for="CategorySelect">Category</label>
-            <select class="form-control" id="CategorySelect"></select>
+<div class="col-md-6  col-md-offset-3">
+    <div class="login-panel panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Transactions</h3>
         </div>
-        <div class="form-group col-md-12">
-            <label for="Currency">Currency</label>
-            <select class="form-control" id="Currency"></select>
+        <div class="panel-body">
+            <form role="form">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="CategorySelect">Category</label>
+                        <select class="form-control" id="CategorySelect"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Currency">Currency</label>
+                        <select class="form-control" id="Currency"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Amount">Amount</label>
+                        <input class="form-control" id="Amount" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input class="form-control" type="text" id="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label style="margin-top: 10px" class="switch">
+                            <input type="checkbox" id="TransactionType">
+                            <div class="slider round">
+                                <span class="on">Income</span>
+                                <span class="off">Outcome</span>
+                            </div>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-default">Add Transaction</button>
+                </fieldset>
+            </form>
         </div>
-        <div class="form-group col-md-12">
-            <label for="Amount">Amount</label>
-            <input class="form-control" id="Amount" />
-        </div>
-        <div class="form-group col-md-12">
-            <label for="Description">Description</label>
-            <input class="form-control" type="text" id="Description" />
-        </div>
-        <label style="margin-top: 10px" class="switch">
-            <input type="checkbox" id="TransactionType">
-            <div class="slider round">
-                <span class="on">Income</span>
-                <span class="off">Outcome</span>
-            </div>
-        </label>
-        <div style="margin-top: 10px" class="row col-md-12">
-            <button type="submit" class="btn btn-default">Add Transaction</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 <style>

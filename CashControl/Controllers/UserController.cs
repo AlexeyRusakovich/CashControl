@@ -26,17 +26,16 @@ namespace CashControl.Api
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Users user)
         {
             if (ModelState.IsValid)
             {
                 Users _user = await db.Users.FirstOrDefaultAsync(u => u.Login == user.Login && u.Password == user.Password);
-                if (user != null)
+                if (_user != null)
                 {
                     await Authenticate(user.Login); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Transactions");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
@@ -88,7 +87,7 @@ namespace CashControl.Api
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
-        }
+            return RedirectToAction("Login", "User");
         }
     }
+}

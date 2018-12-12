@@ -25,14 +25,22 @@
                     <label class="navbar-brand">CashControl</label>  
                 </div>  
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Transactions" asp-action="Index">Management</a></li>
-                    <li><a asp-controller="Report" asp-action="Index">Report</a></li>
-                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-controller="Transactions" asp-action="Index">Management</a></li>
+                        <li><a asp-controller="Report" asp-action="Index">Report</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-controller="User" asp-action="Login">Sign in</a></li>
-                    <li><a asp-controller="User" asp-action="Logout">Sign out</a></li>
-                    <li><a asp-controller="User" asp-action="Register">Register</a></li>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-controller="User" asp-action="Login">Sign In</a></li>
+                        <li><a asp-controller="User" asp-action="Register">Sign Up</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-controller="User" asp-action="Logout">Sign Out</a></li>
+                    }
                 </ul>
             </div>  
         </nav>

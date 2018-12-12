@@ -7,6 +7,7 @@ using CashControl.Api;
 using CashControl.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CashControl.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CashControl.Controllers
 {
@@ -19,6 +20,7 @@ namespace CashControl.Controllers
             transactions = transactionsRepository;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
