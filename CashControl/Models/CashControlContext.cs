@@ -1,4 +1,5 @@
 ﻿using System;
+using CashControl.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -106,6 +107,33 @@ namespace CashControl.Models
                     .IsRequired()
                     .HasMaxLength(256);
             });
+
+            modelBuilder.Entity<Users>().HasData(
+                new Users { Login = "admin", Password = EncryptHelper.Encrypt("admin") });
+
+            modelBuilder.Entity<TransactionType>().HasData(
+                new TransactionType { Id = 1, Name = "Income" },
+                new TransactionType { Id = 2, Name = "Outcome" });
+
+            modelBuilder.Entity<Currency>().HasData(
+                new Currency { Abbreviation = "BYN", FullName = "Belarusian ruble", Id = 1 },
+                new Currency { Abbreviation = "USD", FullName = "United States dollar", Id = 2 },
+                new Currency { Abbreviation = "EUR", FullName = "European euro", Id = 3 },
+                new Currency { Abbreviation = "UAH", FullName = "Ukrainian hryvnia", Id = 4 },
+                new Currency { Abbreviation = "RUB", FullName = "Russian ruble", Id = 5 });
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Продукты" },
+                new Category { Id = 2, Name = "Автомобиль" },
+                new Category { Id = 3, Name = "Транспорт" },
+                new Category { Id = 4, Name = "Развлечения" },
+                new Category { Id = 5, Name = "Забота о себе" },
+                new Category { Id = 6, Name = "Отпуск" },
+                new Category { Id = 7, Name = "Товары для дома" },
+                new Category { Id = 8, Name = "Образование" },
+                new Category { Id = 9, Name = "Разное" },
+                new Category { Id = 10, Name = "Перевод" },
+                new Category { Id = 111, Name = "Бизнес" });
         }
     }
 }
