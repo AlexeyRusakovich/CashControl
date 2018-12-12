@@ -8,5 +8,6 @@ namespace CashControl.Interfaces
 {
     public interface ITransactionsRepository : IRepository<Transactions>
     {
+        Task<IEnumerable<Transactions>> GetByRange(string UserLogin, DateTime start, DateTime end);
     }
 }

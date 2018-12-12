@@ -29,6 +29,11 @@ namespace CashControl.Api
             return result;
         }
 
+        public async Task<IEnumerable<Transactions>> GetByRange(string UserLogin, DateTime start, DateTime end)
+        {
+            return await _context.Transactions.Where(t => t.UserLogin == UserLogin && t.Date >= start && t.Date <= end).ToListAsync();
+        }
+
         public Task<Transactions> GetById(string id)
         {
             throw new NotImplementedException();

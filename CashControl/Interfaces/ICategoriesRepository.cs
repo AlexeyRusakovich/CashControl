@@ -6,7 +6,7 @@ using CashControl.Models;
 
 namespace CashControl.Interfaces
 {
-    interface ICategoriesRepository : IRepository<Category>
+    public interface ICategoriesRepository : IRepository<Category>
     {
     }
 }

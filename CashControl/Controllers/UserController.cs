@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CashControl.Helpers;
 using CashControl.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -30,7 +31,7 @@ namespace CashControl.Api
         {
             if (ModelState.IsValid)
             {
-                Users _user = await db.Users.FirstOrDefaultAsync(u => u.Login == user.Login && u.Password == user.Password);
+                Users _user = await db.Users.FirstOrDefaultAsync(u => u.Login == user.Login && EncryptHelper.VerifyHashedPassword(u.Password, user.Password));
                 if (_user != null)
                 {
                     await Authenticate(user.Login); // аутентификация

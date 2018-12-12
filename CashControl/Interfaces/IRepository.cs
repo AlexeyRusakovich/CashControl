@@ -14,7 +14,6 @@ namespace CashControl.Interfaces
         Task Create(T item);
         Task Update(T item);
         Task Delete(int id);
-
         Task Delete(string id);
         Task Save();
     }

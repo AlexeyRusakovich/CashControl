@@ -13,16 +13,26 @@ namespace CashControl.Controllers
 {
     public class TransactionsController : Controller
     {
-        private readonly ITransactionsRepository transactions;
+        private readonly ITransactionsRepository _transactions;
+        private readonly ICurrenciesRepository _currencies;
+        private readonly ICategoriesRepository _categories;
 
-        public TransactionsController(ITransactionsRepository transactionsRepository)
+        public TransactionsController(ITransactionsRepository transactionsRepository,
+                                      ICurrenciesRepository currenciesRepository,
+                                      ICategoriesRepository categoriesRepository)
         {
-            transactions = transactionsRepository;
+            _transactions = transactionsRepository;
+            _currencies = currenciesRepository;
+            _categories = categoriesRepository;
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.Transactions = await _transactions.GetByRange(User.Identity.Name, DateTime.Today, DateTime.Today.AddDays(1));
+            ViewBag.Currencies = await _currencies.GetAll();
+            ViewBag.Categories = await _categories.GetAll();
+
             return View();
         }
     }

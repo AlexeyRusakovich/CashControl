@@ -6,7 +6,7 @@ using CashControl.Models;
 
 namespace CashControl.Interfaces
 {
-    interface ICurrenciesRepository : IRepository<Currency>
+    public interface ICurrenciesRepository : IRepository<Currency>
     {
     }
 }

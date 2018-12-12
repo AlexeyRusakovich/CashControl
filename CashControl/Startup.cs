@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CashControl.Api;
 using CashControl.Interfaces;
 using CashControl.Models;
+using CashControl.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +39,9 @@ namespace CashControl
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<ITransactionsRepository, TransactionsRepository>();
+            services.AddTransient<ICurrenciesRepository, CurrenciesRepository>();
+            services.AddTransient<ICategoriesRepository, CategoriesRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
