@@ -54,6 +54,17 @@ namespace CashControl.Controllers
 
             return View("Index", transaction);
         }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Remove(int id)
+        {
+            await _transactions.Delete(id);
+
+            await FillRequiredViewBagData();
+
+            return View("Index");
+        }
 
         private async Task FillRequiredViewBagData()
         {
