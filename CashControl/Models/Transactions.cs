@@ -7,7 +7,9 @@ namespace CashControl.Models
     public partial class Transactions
     {
         public int Id { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+        [StringLength(300)]
         public string Description { get; set; }
         [Required]
         [Range(1, 100000)]

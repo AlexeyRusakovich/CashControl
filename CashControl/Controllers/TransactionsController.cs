@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,30 +33,34 @@ namespace CashControl.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            ViewBag.Transactions = await _transactions.GetByRange(User.Identity.Name, DateTime.Today, DateTime.Today.AddDays(1));
-            ViewBag.Currencies = await _currencies.GetAll();
-            ViewBag.Categories = await _categories.GetAll();
-            ViewBag.TransactionTypes = await _transactionTypes.GetAll();
+            await FillRequiredViewBagData();
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Transactions transaction)
+        public async Task<IActionResult> Add(Transactions transaction, string[] Categories)
         {
             transaction.Date = DateTime.Now;
             transaction.UserLogin = User.Identity.Name;
+            transaction.Categories = string.Join(", ", Categories);
 
             if (ModelState.IsValid)
             {
                 await _transactions.Create(transaction);
+            }
 
-                return RedirectToAction("Index", "Transactions");
-            }
-            else
-            {
-                return RedirectToAction("Index", "Transactions");
-            }
+            await FillRequiredViewBagData();
+
+            return View("Index", transaction);
+        }
+
+        private async Task FillRequiredViewBagData()
+        {
+            ViewBag.Transactions = await _transactions.GetByRange(User.Identity.Name, DateTime.Today, DateTime.Today.AddDays(1));
+            ViewBag.Currencies = await _currencies.GetAll();
+            ViewBag.Categories = await _categories.GetAll();
+            ViewBag.TransactionTypes = await _transactionTypes.GetAll();
         }
     }
 }
