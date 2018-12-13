@@ -41,6 +41,7 @@ namespace CashControl
             services.AddTransient<ITransactionsRepository, TransactionsRepository>();
             services.AddTransient<ICurrenciesRepository, CurrenciesRepository>();
             services.AddTransient<ICategoriesRepository, CategoriesRepository>();
+            services.AddTransient<ITransactionTypesRepository, TransactionTypesRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

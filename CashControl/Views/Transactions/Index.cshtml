@@ -1,11 +1,11 @@
-﻿@model CashControl.Models.Transactions
-@{
-    ViewData["Title"] = "About";
+﻿@{
+    ViewData["Title"] = "Transactions";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+@model CashControl.Models.Transactions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 <div class="col-md-6  col-md-offset-3">
     <div class="login-panel panel panel-default">
@@ -13,11 +13,11 @@
             <h3 class="panel-title">Transactions</h3>
         </div>
         <div class="panel-body">
-            <form role="form">
+            <form asp-controller="Transactions" asp-action="Add" method="post">
                 <fieldset>
                     <div class="form-group">
                         <label for="CategorySelect">Category</label>
-                        <select class="form-control" id="CategorySelect">
+                        <select class="form-control" id="CategorySelect" name="Categories">
                             @foreach (var category in ViewBag.Categories)
                             {
                                 <option value="@category.Id">@category.Name</option>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Currency">Currency</label>
-                        <select class="form-control" id="Currency">
+                        <select class="form-control" id="Currency" name="CurrencyId">
                             @foreach (var currency in ViewBag.Currencies)
                             {
                                 <option value="@currency.Id">@currency.Abbreviation</option>
@@ -35,109 +35,24 @@
                     </div>
                     <div class="form-group">
                         <label for="Amount">Amount</label>
-                        <input class="form-control" id="Amount" />
+                        <input class="form-control" id="Amount" name="Amount" />
                     </div>
                     <div class="form-group">
                         <label for="Description">Description</label>
-                        <input class="form-control" type="text" id="Description" />
+                        <input class="form-control" type="text" id="Description" name="Description" />
                     </div>
                     <div class="form-group">
-                        <label style="margin-top: 10px" class="switch">
-                            <input type="checkbox" id="TransactionType">
-                            <div class="slider round">
-                                <span class="on">Income</span>
-                                <span class="off">Outcome</span>
-                            </div>
-                        </label>
+                        <label for="TransactionType">Transaction type</label>
+                        <select class="form-control" id="TransactionType" name="TransactionTypeId">
+                            @foreach (var transactionType in ViewBag.TransactionTypes)
+                            {
+                                <option value="@transactionType.Id">@transactionType.Name</option>
+                            }
+                        </select>
                     </div>
-                    <button type="submit" class="btn btn-default">Add Transaction</button>
+                    <button type="submit" class="btn btn-success">Add Transaction</button>
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
-
-<style>
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 150px;
-        height: 34px;
-    }
-
-        .switch input {
-            display: none;
-        }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ca2222;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-    input:checked + .slider {
-        background-color: #2ab934;
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-    }
-
-    input:checked + .slider:before {
-        -webkit-transform: translateX(116px);
-        -ms-transform: translateX(116px);
-        transform: translateX(116px);
-    }
-
-    /*------ ADDED CSS ---------*/
-    .on {
-        display: none;
-    }
-
-    .on, .off {
-        color: white;
-        position: absolute;
-        transform: translate(-50%,-50%);
-        top: 50%;
-        left: 50%;
-        font-size: 10px;
-        font-family: Verdana, sans-serif;
-    }
-
-    input:checked + .slider .on {
-        display: block;
-    }
-
-    input:checked + .slider .off {
-        display: none;
-    }
-
-    /*--------- END --------*/
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
-
-        .slider.round:before {
-            border-radius: 50%;
-        }
-</style>

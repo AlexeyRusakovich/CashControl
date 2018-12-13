@@ -11,18 +11,18 @@
             <h3 class="panel-title">Sign Up</h3>
         </div>
         <div class="panel-body">
-            <form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
+            <form asp-action="Register" asp-controller="User" method="post">
                 <fieldset>
                     <div class="form-group">
                         <input class="form-control" placeholder="Login" name="Login" type="text" autofocus="">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                        <input class="form-control" placeholder="Password" name="Password" type="password" value="">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Confirm Password" name="password" type="password" value="">
+                        <input class="form-control" placeholder="Confirm Password" name="ConfirmPassword" type="password" value="">
                     </div>
-                    <a href="javascript:;" class="btn btn-success">Sign Up</a>
+                    <button type="submit" class="btn btn-success">Sign Up</button>
                 </fieldset>
             </form>
         </div>

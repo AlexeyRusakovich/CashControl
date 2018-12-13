@@ -50,21 +50,20 @@ namespace CashControl.Api
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(Users user)
         {
             if (ModelState.IsValid)
             {
                 Users _user = await db.Users.FirstOrDefaultAsync(u => u.Login == user.Login);
-                if (user == null)
+                if (_user == null)
                 {
                     // добавляем пользователя в бд
-                    db.Users.Add(new Users { Login = user.Login, Password = user.Password });
+                    db.Users.Add(new Users { Login = user.Login, Password = EncryptHelper.Encrypt(user.Password) });
                     await db.SaveChangesAsync();
 
                     await Authenticate(user.Login); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Transactions");
                 }
                 else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
