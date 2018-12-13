@@ -17,11 +17,21 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="CategorySelect">Category</label>
-                        <select class="form-control" id="CategorySelect" asp-for="Id" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
+                        <select class="form-control" id="CategorySelect">
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="Currency">Currency</label>
-                        <select class="form-control" id="Currency" asp-for="Id" asp-items="@(new SelectList(ViewBag.Currencies, "Id", "Abbreviation"))"></select>
+                        <select class="form-control" id="Currency">
+                            @foreach (var currency in ViewBag.Currencies)
+                            {
+                                <option value="@currency.Id">@currency.Abbreviation</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="Amount">Amount</label>
