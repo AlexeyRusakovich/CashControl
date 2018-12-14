@@ -25,6 +25,13 @@
         .row:hover .hover-btn {
             display: block;
         }
+
+        .Outcome {
+            color:red;
+        }
+        .Income {
+            color:green;
+        }
     </style>
 </head>
 <body>
@@ -96,7 +103,7 @@
     </div>
 </div>
 <div class="col-md-6 col-md-offset-3" style="margin-top: 50px">
-<div class="login-panel panel panel-default">
+    <div class="login-panel panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Today's transactions</h3>
     </div>
@@ -105,11 +112,11 @@
         {
             <div class="card">
                 <div class="col-md-9">@transaction.Categories</div>
-                <div class="col-md-2">
+                <div class="col-md-2 @transaction.TransactionType.Name">
                     @{
                         var amount = transaction.Amount;
                         var currencyName = ViewBag.Currencies[transaction.CurrencyId - 1].Abbreviation;
-                        var amountAndCurrency = amount.ToString("2") + " " + currencyName;
+                        var amountAndCurrency = string.Format("{0:N2}", amount) + " " + currencyName;
                     }
                     @amountAndCurrency
                 </div>
