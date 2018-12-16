@@ -38,7 +38,7 @@ namespace CashControl.Api
 
                     return RedirectToAction("Index", "Transactions");
                 }
-                ModelState.AddModelError("Password", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("Password", "Incorrect login and/or password.");
             }
             return View("Login", user);
         }
