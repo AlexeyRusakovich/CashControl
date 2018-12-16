@@ -34,8 +34,7 @@
         }
     </style>
 </head>
-<body>
-    
+<body>    
     <script type="text/javascript">
         $('#CategorySelect').selectpicker();
         function RemoveTransaction(transactionId) {
@@ -44,10 +43,10 @@
                 type: "POST",
                 data: { id: transactionId},
                 cache: false,
-                async: true
+                async: true,
+                success: location.reload()
             });
-        }
-        
+        }        
     </script>
 
 <div class="col-md-6 col-md-offset-3">
@@ -108,26 +107,43 @@
         <h3 class="panel-title">Today's transactions</h3>
     </div>
     <div class="panel-body">
-        @foreach (var transaction in ViewBag.Transactions)
+        @if (ViewBag.Transactions.Count == 0)
         {
             <div class="card">
-                <div class="col-md-9">@transaction.Categories</div>
-                <div class="col-md-2 @transaction.TransactionType.Name">
-                    @{
-                        var amount = transaction.Amount;
-                        var currencyName = ViewBag.Currencies[transaction.CurrencyId - 1].Abbreviation;
-                        var amountAndCurrency = string.Format("{0:N2}", amount) + " " + currencyName;
-                    }
-                    @amountAndCurrency
-                </div>
-                <div class="col-md-1">
-                    <button type="button" class="close" data-dismiss="alert" onclick="RemoveTransaction(@transaction.Id)">
-                        <span aria-hidden="true">×</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                </div>
+                <h4 class="text-center">There are no transactions!</h4>
             </div>
-
+        }
+        else
+        {
+            @foreach (var transaction in ViewBag.Transactions)
+            {
+                <div class="card">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">@transaction.Categories</div>
+                            @if (transaction.Description != null)
+                            {
+                                <div class="col-md-12">@transaction.Description</div>
+                            }   
+                        </div> 
+                    </div>
+                    
+                    <div class="col-md-2 @transaction.TransactionType.Name">
+                        @{
+                            var amount = transaction.Amount;
+                            var currencyName = ViewBag.Currencies[transaction.CurrencyId - 1].Abbreviation;
+                            var amountAndCurrency = string.Format("{0:N2}", amount) + " " + currencyName;
+                        }
+                        @amountAndCurrency
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="close" data-dismiss="alert" onclick="RemoveTransaction(@transaction.Id)">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+            }
         }
     </div>
 </div>

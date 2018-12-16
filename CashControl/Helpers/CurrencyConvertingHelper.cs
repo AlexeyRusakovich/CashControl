@@ -36,5 +36,10 @@ namespace CashControl.Helpers
                 default: return 1;
             }
         }
+
+        public static Currency ToCurrency(this string value)
+        {
+            return (Currency)Enum.Parse(typeof(Currency), value, true);
+        }
     }
 }
