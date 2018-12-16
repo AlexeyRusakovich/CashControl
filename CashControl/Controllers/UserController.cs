@@ -38,9 +38,9 @@ namespace CashControl.Api
 
                     return RedirectToAction("Index", "Transactions");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("Password", "Некорректные логин и(или) пароль");
             }
-            return View(user);
+            return View("Login", user);
         }
 
         [HttpGet]
@@ -50,10 +50,15 @@ namespace CashControl.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(Users user)
+        public async Task<IActionResult> Register(RegisterViewModel user)
         {
             if (ModelState.IsValid)
             {
+                if(user.Password != user.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "Password and ConfirmPassword must match.");
+                    return View(user);
+                }
                 Users _user = await db.Users.FirstOrDefaultAsync(u => u.Login == user.Login);
                 if (_user == null)
                 {
@@ -66,7 +71,7 @@ namespace CashControl.Api
                     return RedirectToAction("Index", "Transactions");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ModelState.AddModelError("Login", "Current user with such login is already exist.");
             }
             return View(user);
         }

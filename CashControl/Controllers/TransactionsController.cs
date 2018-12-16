@@ -57,13 +57,15 @@ namespace CashControl.Controllers
         
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Remove(int id, int fromAnotherPage)
         {
             await _transactions.Delete(id);
-
             await FillRequiredViewBagData();
 
-            return View("Index");
+            if (fromAnotherPage == 0)
+                return View("Index");
+            else
+                return RedirectToAction("Index", "Report");
         }
 
         private async Task FillRequiredViewBagData()

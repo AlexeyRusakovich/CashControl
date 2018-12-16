@@ -3,22 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @*Data picker urls*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript">
-    function RemoveTransaction(transactionId) {
-        $.ajax({
-            url: "/Transactions/Remove",
-            type: "POST",
-            data: { id: transactionId },
-            cache: false,
-            async: true,
-            success: location.reload()
-        });
-    }
-</script>
 
 <div class="container col-md-8 col-md-offset-2">
     <div class="panel panel-default ">
@@ -53,45 +44,63 @@
                     </div>
                     <button type="submit" class="btn btn-success">Display</button>
                 </div>
+                @if (ViewBag.HasRangeError)
+                {
+                    <h4 class="text-center" style="color: red">The range must not exceed 30 days!</h4>
+                }
             </form>
         </div>
-        <div class="panel-body">
-            @if (ViewBag.Transactions.Count == 0)
-            {
-                <div class="card">
-                    <h4 class="text-center">There are no transactions!</h4>
-                </div>
+        <div>
+            @{ 
+                
             }
-            else
+        </div>
+        <div class="panel-body">
+            @if (ViewBag.Transactions != null)
             {
-                @foreach (var transaction in ViewBag.Transactions)
+                @if (ViewBag.Transactions.Count == 0)
                 {
                     <div class="card">
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-md-12">@transaction.Categories</div>
-                                @if (transaction.Description != null)
-                                {
-                                    <div class="col-md-12">@transaction.Description</div>
+                        <h4 class="text-center">There are no transactions!</h4>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var transaction in ViewBag.Transactions)
+                    {
+                        <div class="card">
+                            <div class="col-md-1">
+                                @transaction.Date.ToShortDateString()
+                            </div>
+                            <div class="col-md-7 col-md-offset-1">
+                                <div class="row">
+                                    <div class="col-md-12">@transaction.Categories</div>
+                                    @if (transaction.Description != null)
+                                    {
+                                        <div class="col-md-12">@transaction.Description</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 @ViewBag.CurrentCurrency">
+                                @{
+                                    var amount = transaction.Amount;
+                                    var currencyName = ViewBag.Currencies[transaction.CurrencyId - 1].Abbreviation;
+                                    var amountAndCurrency = string.Format("{0:N2}", amount) + " " + currencyName;
                                 }
+                                @amountAndCurrency
+                            </div>
+                            <div class="col-md-1">
+                                <form asp-controller="Transactions" asp-action="Remove" method="post">
+                                    <input name="id" type="hidden" value="@transaction.Id" />
+                                    <input name="fromAnotherPage" type="hidden" value="1" />
+                                    <button type="submit">
+                                        X
+                                    </button>
+                                </form>
                             </div>
                         </div>
-
-                        <div class="col-md-2 @ViewBag.CurrentCurrency">
-                            @{
-                                var amount = transaction.Amount;
-                                var currencyName = ViewBag.Currencies[transaction.CurrencyId - 1].Abbreviation;
-                                var amountAndCurrency = string.Format("{0:N2}", amount) + " " + currencyName;
-                            }
-                            @amountAndCurrency
-                        </div>
-                        <div class="col-md-1">
-                            <button type="button" class="close" data-dismiss="alert" onclick="RemoveTransaction(@transaction.Id)">
-                                <span aria-hidden="true">×</span>
-                                <span class="sr-only">Close</span>
-                            </button>
-                        </div>
-                    </div>
+                    }
                 }
             }
         </div>
@@ -99,12 +108,12 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#datePicker')
             .datepicker({
                 format: 'mm/dd/yyyy'
             })
-            .on('changeDate', function(e) {
+            .on('changeDate', function (e) {
                 // Revalidate the date field
                 $('#eventForm').formValidation('revalidateField', 'date');
             });

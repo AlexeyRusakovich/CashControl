@@ -3,7 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model CashControl.Models.Users
+@model CashControl.Models.RegisterViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <div class="col-md-4  col-md-offset-4">
     <div class="login-panel panel panel-default">
@@ -14,13 +15,16 @@
             <form asp-action="Register" asp-controller="User" method="post">
                 <fieldset>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Login" name="Login" type="text" autofocus="">
+                        <input id="Login" class="form-control" placeholder="Login" name="Login" type="text" autofocus="">
+                        <span asp-validation-for="Login" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Password" name="Password" type="password" value="">
+                        <input id="Password" class="form-control" placeholder="Password" name="Password" type="password" value="">
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Confirm Password" name="ConfirmPassword" type="password" value="">
+                        <input id="ConfirmPassword" class="form-control" placeholder="Confirm Password" name="ConfirmPassword" type="password" value="">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-success">Sign Up</button>
                 </fieldset>

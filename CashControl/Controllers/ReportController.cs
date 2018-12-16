@@ -35,11 +35,24 @@ namespace CashControl.Controllers
             if (startDate == default(DateTime) || endDate == default(DateTime) || currencyId == default(int))
             {
                 startDate = DateTime.Today;
-                endDate = DateTime.Today.AddDays(1);
+                endDate = DateTime.Today.AddDays(30);
                 currencyId = (int)Enums.Currency.BYN;
             }
 
-            await FillRequiredViewBagData(startDate, endDate);
+            ViewBag.Currencies = await _currencies.GetAll();
+
+
+            if (endDate < startDate ||
+                endDate > startDate.AddDays(30))
+            {
+                ViewBag.HasRangeError = true;
+                return View("Index");
+            }
+            else
+                ViewBag.HasRangeError = false;
+
+            ViewBag.Transactions = await _transactions.GetByRange(User.Identity.Name, startDate, endDate);
+            
             var transactions = (IEnumerable<Transactions>)ViewBag.Transactions;
             var currencies = (IEnumerable<Currency>)ViewBag.Currencies;
             var currentCurrency = currencies.Where(c => c.Id == currencyId).FirstOrDefault().Abbreviation;
@@ -52,7 +65,8 @@ namespace CashControl.Controllers
                     Description = t.Description,
                     TransactionTypeId = t.TransactionTypeId,
                     TransactionType = t.TransactionType,
-                    Date = t.Date
+                    Date = t.Date,
+                    Id = t.Id                    
                 };
             }).OrderBy(tr => tr.Date).ToList();
             ViewBag.CurrentCurrency = currentCurrency;
@@ -63,12 +77,6 @@ namespace CashControl.Controllers
         public async Task<IActionResult> GetReport()
         {
             return View("Index");
-        }
-
-        private async Task FillRequiredViewBagData(DateTime startDate, DateTime endDate)
-        {
-            ViewBag.Transactions = await _transactions.GetByRange(User.Identity.Name, startDate, endDate);
-            ViewBag.Currencies = await _currencies.GetAll();
         }
     }
 }

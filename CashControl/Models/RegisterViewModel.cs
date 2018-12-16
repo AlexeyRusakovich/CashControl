@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CashControl.Models
 {
-    public partial class Users
+    public class RegisterViewModel
     {
-        public Users()
-        {
-            Transactions = new HashSet<Transactions>();
-        }
-
         [Required]
         public string Login { get; set; }
+
         [Required]
         public string Password { get; set; }
 
-        public ICollection<Transactions> Transactions { get; set; }
+        [Required]
+        public string ConfirmPassword { get; set; }
     }
 }
