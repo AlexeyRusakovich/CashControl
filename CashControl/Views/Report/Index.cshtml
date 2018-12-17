@@ -131,8 +131,8 @@
                 });
             </script>
             <div class="panel-body" style="margin-top: 20px">
-                <h3 class="col-md-6" style="color: rgb(41, 171, 135)">Total income: @ViewBag.TotalIncome</h3>
-                <h3 class="col-md-6" style="color: rgb(255, 99, 132)">Total outcome: @ViewBag.TotalOutCome</h3>
+                <h3 class="col-md-6" style="color: rgb(41, 171, 135)">Total income: @ViewBag.TotalIncome @ViewBag.CurrentCurrency</h3>
+                <h3 class="col-md-6" style="color: rgb(255, 99, 132)">Total outcome: @ViewBag.TotalOutCome @ViewBag.CurrentCurrency</h3>
             </div>
             <div class="panel-body" style="margin-top: 20px">
                 @if (ViewBag.Transactions != null)
