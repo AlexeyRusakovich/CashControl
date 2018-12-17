@@ -34,8 +34,8 @@ namespace CashControl.Controllers
         {
             if (startDate == default(DateTime) || endDate == default(DateTime) || currencyId == default(int))
             {
-                startDate = DateTime.Today;
-                endDate = DateTime.Today.AddDays(30);
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
                 currencyId = (int)Enums.Currency.BYN;
             }
 
@@ -52,10 +52,37 @@ namespace CashControl.Controllers
                 ViewBag.HasRangeError = false;
 
             ViewBag.Transactions = await _transactions.GetByRange(User.Identity.Name, startDate, endDate);
-            
+
             var transactions = (IEnumerable<Transactions>)ViewBag.Transactions;
             var currencies = (IEnumerable<Currency>)ViewBag.Currencies;
-            var currentCurrency = currencies.Where(c => c.Id == currencyId).FirstOrDefault().Abbreviation;
+            var currentCurrency = currencies.FirstOrDefault(c => c.Id == currencyId)?.Abbreviation;
+
+            var dateRange = startDate.ListAllDates(endDate);
+            ViewBag.Labels = dateRange.Select(d => d.ToShortDateString()).ToArray();
+            var incomeTransactions = transactions.Where(t => t.TransactionTypeId == 1);
+            var outcomeTransactions = transactions.Where(t => t.TransactionTypeId == 2);
+
+            List<double> incomeDataSet  = new List<double>();
+            List<double> outcomeDataSet = new List<double>();
+
+            foreach (var date in dateRange)
+            {
+                var incomeTransaction = incomeTransactions.Where(t => t.Date == date);
+                var outcomeTransaction = outcomeTransactions.Where(t => t.Date == date);
+                if (incomeTransaction.Any())
+                    incomeDataSet.Add(decimal.ToDouble(incomeTransaction.Sum(t => t.Amount)));
+                else
+                    incomeDataSet.Add(0);
+
+                if(outcomeTransaction.Any())
+                    outcomeDataSet.Add(decimal.ToDouble(outcomeTransaction.Sum(t => t.Amount)));
+                else
+                    outcomeDataSet.Add(0);
+            }
+
+            ViewBag.IncomeDataSet = incomeDataSet;
+            ViewBag.OutcomeDataSet = outcomeDataSet;
+
             ViewBag.Transactions = transactions.Select(t => {
                 return new Transactions
                 {
@@ -70,6 +97,8 @@ namespace CashControl.Controllers
                 };
             }).OrderBy(tr => tr.Date).ToList();
             ViewBag.CurrentCurrency = currentCurrency;
+            ViewBag.TotalIncome = incomeDataSet.Sum(x => x);
+            ViewBag.TotalOutCome = outcomeDataSet.Sum(x => x);
             return View();
         }
 

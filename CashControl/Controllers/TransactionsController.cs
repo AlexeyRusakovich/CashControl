@@ -41,7 +41,6 @@ namespace CashControl.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Transactions transaction, string[] Categories)
         {
-            transaction.Date = DateTime.Now;
             transaction.UserLogin = User.Identity.Name;
             transaction.Categories = string.Join(", ", Categories);
 
