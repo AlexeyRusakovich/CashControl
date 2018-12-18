@@ -100,7 +100,7 @@
                 @foreach (var income in @ViewBag.IncomeDataSet)
                 {
                     <text>
-                        IncomeDataSet.push(@income);
+                        IncomeDataSet.push(parseFloat("@income".replace(',', '.')));
                     </text>
                 }
                 var OutcomeDataSet = [];
@@ -108,7 +108,7 @@
                 @foreach (var outcome in @ViewBag.OutcomeDataSet)
                 {
                     <text>
-                        OutcomeDataSet.push(@outcome);
+                        OutcomeDataSet.push(parseFloat("@outcome".replace(',', '.')));
                     </text>
                 }
 
@@ -131,8 +131,17 @@
                 });
             </script>
             <div class="panel-body" style="margin-top: 20px">
-                <h3 class="col-md-6" style="color: rgb(41, 171, 135)">Total income: @ViewBag.TotalIncome @ViewBag.CurrentCurrency</h3>
-                <h3 class="col-md-6" style="color: rgb(255, 99, 132)">Total outcome: @ViewBag.TotalOutCome @ViewBag.CurrentCurrency</h3>
+                <h3 class="col-md-4" style="color: rgb(41, 171, 135)">Total income: @{
+                                                                                        var totalIncome = String.Format("{0:F2}", @ViewBag.TotalIncome);
+                                                                                    } @totalIncome @ViewBag.CurrentCurrency</h3>
+                <h3 class="col-md-4" style="color: rgb(255, 99, 132)">Total outcome: @{
+                                                                                         var totalOutcome = String.Format("{0:F2}", @ViewBag.TotalOutCome);
+                                                                                     } @totalOutcome @ViewBag.CurrentCurrency</h3>
+                <h3 class="col-md-4">
+                    Total: @{
+                        var total = String.Format("{0:F2}", @ViewBag.TotalIncome - @ViewBag.TotalOutCome);
+                    } @total @ViewBag.CurrentCurrency
+                </h3>
             </div>
             <div class="panel-body" style="margin-top: 20px">
                 @if (ViewBag.Transactions != null)

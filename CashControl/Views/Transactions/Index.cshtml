@@ -101,7 +101,7 @@
             <form asp-controller="Transactions" asp-action="Add" method="post">
                 <fieldset>
                     <div class="form-group">
-                        <label for="CategorySelect">Category</label>
+                        <label for="CategorySelect">Category*</label>
                         <select class="form-control selectpicker" id="CategorySelect" name="Categories" multiple data-live-search="true">
                             @foreach (var category in ViewBag.Categories)
                             {
@@ -111,7 +111,7 @@
                         <span asp-validation-for="Categories" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="Currency">Currency</label>
+                        <label for="Currency">Currency*</label>
                         <select class="form-control" id="Currency" name="CurrencyId">
                             @foreach (var currency in ViewBag.Currencies)
                             {
@@ -121,7 +121,7 @@
                         <span asp-validation-for="CurrencyId" class="text-danger"></span>
                     </div>
                     <div>
-                        <label>Date:</label>
+                        <label>Date*</label>
                     </div>
                     <div class="input-group input-append date" id="datePicker">
                         <input type="text" class="form-control" name="Date" />
@@ -131,8 +131,8 @@
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                     <div class="form-group" style="margin-top: 10px">
-                        <label for="Amount">Amount</label>
-                        <input class="form-control" id="Amount" name="Amount" />
+                        <label for="Amount">Amount*</label>
+                        <input class="form-control" maxlength="9" id="Amount" name="Amount" />
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -140,7 +140,7 @@
                         <input class="form-control" type="text" id="Description" name="Description" />
                     </div>
                     <div class="form-group">
-                        <label for="TransactionType">Transaction type</label>
+                        <label for="TransactionType">Transaction type*</label>
                         <select class="form-control" id="TransactionType" name="TransactionTypeId">
                             @foreach (var transactionType in ViewBag.TransactionTypes)
                             {
@@ -170,7 +170,7 @@
         {
             @foreach (var transaction in ViewBag.Transactions)
             {
-            <div class="card">
+            <div class="card col-md-12">
                 <div class="col-md-1">
                     @transaction.Date.ToShortDateString()
                 </div>
